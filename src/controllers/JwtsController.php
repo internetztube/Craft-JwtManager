@@ -103,7 +103,7 @@ class JwtsController extends Controller
         // Get request service
         $request = Craft::$app->getRequest();
 
-        // Main JWT settings
+        // Main JWT
         $jwt = new Jwt();
         $jwt->type = $request->getRequiredBodyParam('type', $jwt->type);
         $jwt->userId = $request->getBodyParam('userId', $jwt->userId);

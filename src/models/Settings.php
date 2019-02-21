@@ -33,6 +33,11 @@ class Settings extends Model
     public $refreshTokens = true;
 
     /**
+     * @var bool
+     */
+    public $deleteOldTokens = true;
+
+    /**
      * @var string
      */
     public $refreshTokensExpireAfter = '+2 weeks';

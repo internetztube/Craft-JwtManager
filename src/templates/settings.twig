@@ -17,6 +17,13 @@
 }) }}
 <hr>
 {{ forms.lightswitchField({
+    label: 'Delete old token when generating a new one.'|t('jwt-manager'),
+    id: 'deleteOldTokens',
+    name: 'deleteOldTokens',
+    on: settings.deleteOldTokens,
+}) }}
+<hr>
+{{ forms.lightswitchField({
     label: 'Refresh tokens available.'|t('jwt-manager'),
     id: 'refreshTokens',
     name: 'refreshTokens',

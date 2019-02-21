@@ -402,6 +402,31 @@ class Jwts extends Base
      *
      * @return bool
      */
+    public function deleteOldJwts($jwt) {
+        if ($jwt->userId) {
+            $existingJwts = JwtRecord::find()
+                ->where([
+                    'type' => $jwt->type,
+                    'device' => $jwt->device,
+                    'browser' => $jwt->browser,
+                    'userId' => $jwt->userId,
+                ])
+                ->all();
+            if ($existingJwts) {
+                foreach ($existingJwts as $existingJwt) {
+                    $existingJwt->delete();
+                }
+            }
+        }
+    }
+
+    /**
+     * Saves a JWT.
+     *
+     * @param Jwt $jwt
+     *
+     * @return bool
+     */
     public function saveJwt(Jwt $jwt): bool
     {
         $isNewJwt = !$jwt->id;
@@ -427,21 +452,8 @@ class Jwts extends Base
             $jwt->browser = $this->_currentBrowserType;
             $jwt->userAgent = $this->_currentUserAgent;
 
-            // Remove old JWTs for user?
-            if ($jwt->userId) {
-                $existingJwts = JwtRecord::find()
-                    ->where([
-                        'type' => $jwt->type,
-                        'device' => $jwt->device,
-                        'browser' => $jwt->browser,
-                        'userId' => $jwt->userId,
-                    ])
-                    ->all();
-                if ($existingJwts) {
-                    foreach ($existingJwts as $existingJwt) {
-                        $existingJwt->delete();
-                    }
-                }
+            if ($this->settings->deleteOldTokens) {
+                $this->deleteOldJwts($jwt);
             }
 
             // Get a token
