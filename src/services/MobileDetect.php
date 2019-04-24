@@ -50,7 +50,9 @@ class MobileDetect extends Component
      */
     public function getDeviceType(): string
     {
-        if (!$this->isMobile()) {
+        if ($this->isDesktopApp()) {
+            return 'desktop-app';
+        } elseif (!$this->isMobile()) {
             return 'desktop';
         } elseif ($this->isTablet()) {
             return 'tablet';
@@ -154,6 +156,13 @@ class MobileDetect extends Component
     public function isPhone(): bool
     {
         return $this->isMobile() && !$this->isTablet();
+    }
+
+    public function isDesktopApp(): bool
+    {
+        $userAgent = Craft::$app->request->userAgent;
+        $result = preg_match('/Electron\/\d.\d.\d/', $userAgent);
+        return $result !== false;
     }
 
     /**

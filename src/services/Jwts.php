@@ -106,6 +106,7 @@ class Jwts extends Base
             return false;
         }
 
+        /*
         // Additional checks, if we'd like to login
         if ($jwt->type === Jwt::TYPE_LOGIN) {
             if (strcmp($jwt->device, $this->_currentDeviceType) !== 0) {
@@ -116,6 +117,7 @@ class Jwts extends Base
                 return false;
             }
         }
+        */
 
         return true;
     }
