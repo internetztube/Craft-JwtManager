@@ -8,7 +8,7 @@
 {% set offset = (currentPage - 1) * limit %}
 {% set jwts = craft.jwtManager.jwts.getAllJwts(limit, offset) %}
 {% set totalJwts = craft.jwtManager.jwts.getTotalJwts() %}
-{% set totalPages = totalJwts / limit %}
+{% set totalPages = (totalJwts / limit) | round(0, 'ceil') %}
 
 {% block actionButton %}
     <a href="{{ url('jwt-manager/jwts/new') }}" class="btn submit add icon">{{ 'Create a new JWT'|t('jwt-manager') }}</a>
