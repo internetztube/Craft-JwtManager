@@ -169,7 +169,7 @@ class Jwts extends Base
             $this->setError('The JWT has no data available.');
         } catch (\Exception $e) {
             // Unexpected value, verification failed or expired
-            $this->setError($e->getMessage());
+            // $this->setError($e->getMessage());
         }
 
         return null;
