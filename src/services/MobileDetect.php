@@ -50,6 +50,10 @@ class MobileDetect extends Component
      */
     public function getDeviceType(): string
     {
+        if ($customUserAgentForJwt = Craft::$app->config->general->customUserAgentForJwt) {
+            return $customUserAgentForJwt;
+        }
+
         if ($this->isDesktopApp()) {
             return 'desktop-app';
         } elseif (!$this->isMobile()) {
@@ -161,8 +165,8 @@ class MobileDetect extends Component
     public function isDesktopApp(): bool
     {
         $userAgent = Craft::$app->request->userAgent;
-        $result = preg_match('/Electron\/\d.\d.\d/', $userAgent);
-        return $result !== false;
+        preg_match_all('/Electron\/\d.\d.\d/', $userAgent, $matches, PREG_SET_ORDER, 0);
+        return count($matches) > 0;
     }
 
     /**
