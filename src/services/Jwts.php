@@ -405,6 +405,8 @@ class Jwts extends Base
      * @return bool
      */
     public function deleteOldJwts($jwt) {
+        $dontDeleteTheseDeviceTokensWhenDeleteOthersIsEnabled = Craft::$app->config->general->dontDeleteTheseDeviceTokensWhenDeleteOthersIsEnabled;
+
         if ($jwt->userId) {
             $existingJwts = JwtRecord::find()
                 ->where([
@@ -416,6 +418,9 @@ class Jwts extends Base
                 ->all();
             if ($existingJwts) {
                 foreach ($existingJwts as $existingJwt) {
+                    if (in_array($existingJwt->device, $dontDeleteTheseDeviceTokensWhenDeleteOthersIsEnabled)) {
+                        continue;
+                    }
                     $existingJwt->delete();
                 }
             }
